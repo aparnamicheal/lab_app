@@ -125,7 +125,8 @@ def category(request):
         c.execute(adtst)
         con.commit()
     return render(request,"Add_TestCategory.html")
-        
+#def newtst(request):
+ #   return render(request,"Add_NewTest.html")
 
 
     
