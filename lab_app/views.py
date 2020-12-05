@@ -20,7 +20,7 @@ def log(request):
             if(r[1]==pwd):
                 request.session['uname']='username'
                 if(r[2]=='admin'):
-                 msg="success"
+                 msg="success !"
                  #admin home page
                 elif (r[2]=='user'):
                     msg="success"
