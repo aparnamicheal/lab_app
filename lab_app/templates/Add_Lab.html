@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+h2 {text-align: center;}
+</style>
+</head>
+
+<body>
+<form method="post">
+{%csrf_token %}
+<h2><text-align:"center">Lab Registration Form</align></h2>
+
+<table align="center">
+<tr><td> Lab Name : </td>
+<td><input type="text" name="labname"></td>
+</tr>
+
+<tr><td>Address :</td>
+<td><textarea name="addr" rows="4" cols="30"></textarea></td></tr>
+<tr>
+<td>State :</td>
+<td><input type="text" name="state"></td>
+<td>District : </td>
+<td><input type="text" name="dis"></td></tr>
+
+<tr><td>Place:</td>
+<td><input type="text" name="place"></td>
+<td>Pin Code : </td>
+<td><input type="text" name="pin"></td></tr>
+
+<tr><td>Contact Number :</td>
+<td><input type="text" name="phnum1"></td>
+
+<tr><td>Username :</td>
+<td><input type="text" name="uname"></td></tr>
+<tr><td>Password : </td>
+<td><input type="text" name="pass"></td></tr>
+<tr><td><input type="submit" name="lab" value="Add Lab"></td></tr>
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+h2 {text-align: center;}
+</style>
+</head>
+
+<body>
+<form method="post">
+{%csrf_token %}
+<h2><text-align:"center">Add Test Type</align></h2>
+
+<table align="center">
+
+
+<tr><td>select Your Test Category : </td>
+    <td><select >
+    <option selected disabled="true">..........select test category........</option>
+        <option>blood</option>
+          <option>routine test</option>
+                
+      </td></select></tr>
+
+
+
+<tr>
+<td>Enter Your Test Type :</td>
+<td><input type="text" name="type"></td></tr>
+<tr><td>Rate : </td>
+<td><input type="text" name="rate"></td></tr>
+<tr><td><input type="submit" name="next" value="Next"></td>
+<td><input type="submit" name="save" value="Save"></td></tr>
+</table>
+</form>
+</body>
+</html>
