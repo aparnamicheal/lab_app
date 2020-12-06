@@ -2,8 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 import pymysql
 
+from django.core.mail import send_mail
+from lab.settings import EMAIL_HOST_USER
+
 # Create your views here.
-con = pymysql.connect("localhost","root","","lab")
+con = pymysql.connect("localhost","root","root","lab")
 c = con.cursor()
 def log(request):
     msg=""
@@ -20,7 +23,7 @@ def log(request):
             if(r[1]==pwd):
                 request.session['email']='email'
                 if(r[2]=='admin'):
-                 msg="success"
+                 msg="success !"
                  #admin home page
                 elif (r[2]=='user'):
                     msg="success"
@@ -132,6 +135,10 @@ def newtst(request):
     c.execute(q)
     result=c.fetchall()
     return render(request,"Add_NewTest.html",{'cat':result})
+
+def mail(request):
+    send_mail("subject", "message", EMAIL_HOST_USER, ["lab_owner@gmail.com"], fail_silently = False)
+    return HttpResponse("ok")
 
 
     
