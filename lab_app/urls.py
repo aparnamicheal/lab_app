@@ -8,6 +8,6 @@ urlpatterns = [
     path('doct',views.addoct),
     path('category',views.category),
     path("newtest",views.newtst),
-    path("mail",views.mail),
+    #path("mail",views.mail),
     
 ]

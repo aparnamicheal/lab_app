@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 from lab.settings import EMAIL_HOST_USER
 
 # Create your views here.
-con = pymysql.connect("localhost","root","root","lab")
+con = pymysql.connect("localhost","root","","lab")
 c = con.cursor()
 def log(request):
     msg=""
@@ -83,19 +83,19 @@ def stafreg(request):
         district=request.POST.get('dis')
         place=request.POST.get('place')
         pincode=request.POST.get('pin')
-        contactnum=request.POST.get('phnum1')
-        alternatenum=request.POST.get('phnum2')
+        contactnum=request.POST.get('num1')
+        alternatenum=request.POST.get('num2')
         email=request.POST.get('email')
         password=request.POST.get('pass')
         stflg="insert into login(email,password,type) values('"+str( email)+"','"+str(password)+"','"+str(s)+"');"
-        stfrg="insert into staff_reg(firstname,lastname,dob,gender,qualification,address,state,district,place,pincode,contactnum,alternatenum, email,password) values('"+str(fname)+"','"+str(lname)+"','"+str(dob)+"','"+str(gender)+"','"+str(qualification)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str(alternatenum)+"','"+str( email)+"','"+str(password)+"');"
+        stfrg="insert into staff_reg(firstname,lastname,dob,gender,qualification,address,state,district,place,pincode,contactnum,alternatenum,email,password) values('"+str(fname)+"','"+str(lname)+"','"+str(dob)+"','"+str(gender)+"','"+str(qualification)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str(alternatenum)+"','"+str(email)+"','"+str(password)+"');"
         c.execute(stfrg)
         c.execute(stflg)
         con.commit()
     return render(request,'Add_Staff.html')
 
 def labreg(request):
-    if 'lab' in request.POST:
+    if 'labsub' in request.POST:
         l='lab'
         labname=request.POST.get('labname')
         address=request.POST.get('addr')
@@ -104,42 +104,50 @@ def labreg(request):
         place=request.POST.get('place')
         pincode=request.POST.get('pin')
         contactnum=request.POST.get('phnum1')
-        
         email=request.POST.get('email')
         password=request.POST.get('pass')
         lblg="insert into login(email,password,type) values('"+str(email)+"','"+str(password)+"','"+str(l)+"');"
         lbrg="insert into lab_reg(labname,address,state,district,place,pincode,contactnum,email,password) values('"+str(labname)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str( email)+"','"+str(password)+"');"
-        
         c.execute(lblg)
         c.execute(lbrg)
         con.commit()
+    #if 'labsub' in request.POST:
+        subject = 'Welocme........!'
+        email=request.POST.get('email')
+        p=request.POST.get('pass')
+        message = "your login password:%s" % (p)
+        send_mail(subject, message, EMAIL_HOST_USER, [email], fail_silently = False)
+        return HttpResponse("mail send")
     return render(request,'Add_Lab.html')
+
+
 
 def addoct(request):
     return render(request,'Add_Doctor.html')
 
 def category(request):
     if 'category' in request.POST:
-        
         tstcat=request.POST.get('cat')
-        tsttype=request.POST.get('type')
-        rate=request.POST.get('rate')
-        adtst="insert into test_category(category_name,test_type,rate) values('"+str(tstcat)+"','"+str(tsttype)+"','"+str(rate)+"');"
+        adtst="insert into test_category(category_name) values('"+str(tstcat)+"');"
         c.execute(adtst)
         con.commit()
    
     return render(request,"Add_TestCategory.html")
 def newtst(request):
-    
+    if 'save' in request.POST:
+        tstcat=request.POST.get('cat')
+        tsttype=request.POST.get('type')
+        rate=request.POST.get('rate')
+        addnwtst="insert into new_test(category_name,type,rate) values('"+str(tstcat)+"','"+str(tsttype)+"','"+str(rate)+"');"
+        c.execute(addnwtst)
+        con.commit()  
     q="select * from test_category"
     c.execute(q)
     result=c.fetchall()
-    return render(request,"Add_NewTest.html",{'cat':result})
+    return render(request,"Add_NewTest.html",{'cat':result})   
 
-def mail(request):
-    send_mail("subject", "message", EMAIL_HOST_USER, ["lab_owner@gmail.com"], fail_silently = False)
-    return HttpResponse("ok")
 
+    
 
     
 

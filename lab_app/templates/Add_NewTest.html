@@ -13,11 +13,8 @@ h2 {text-align: center;}
 <h2><text-align:"center">Add New Test </align></h2>
 
 <table align="center">
-
-<tr><td>Enter Your Category : </td>
-<td><input type="text" name="cate"></td></tr>
 <tr><td>select Your Test Category : </td>
-    <td><select >
+    <td><select name="cate" >
     <option selected disabled="true">..........select your added test category........</option>
         {% for item in cat %}
        
@@ -29,7 +26,7 @@ h2 {text-align: center;}
 <td><input type="text" name="type"></td></tr>
 <tr><td>Rate : </td>
 <td><input type="text" name="rate"></td></tr>
-<tr><td><input type="submit" name="next" value="Next"></td>
+
 <td><input type="submit" name="save" value="Save"></td></tr>
 </table>
 </form>
