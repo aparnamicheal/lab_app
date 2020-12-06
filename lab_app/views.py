@@ -8,17 +8,17 @@ c = con.cursor()
 def log(request):
     msg=""
     if(request.POST):
-        uname=request.POST.get("txtuname")
-        pwd=request.POST.get("txtpass")
-        s="select count(*) from login where username='"+uname+"'"
+        email=request.POST.get("email")
+        pwd=request.POST.get("pass")
+        s="select count(*) from login where email='"+email+"'"
         c.execute(s)
         r=c.fetchone()
         if(r[0]>0):
-            s="select * from login where username='"+uname+"'"
+            s="select * from login where email='"+email+"'"
             c.execute(s)
             r=c.fetchone()
             if(r[1]==pwd):
-                request.session['uname']='username'
+                request.session['email']='email'
                 if(r[2]=='admin'):
                  msg="success"
                  #admin home page
@@ -56,15 +56,15 @@ def ureg(request):
         pincode=request.POST.get('pin')
         contactnum=request.POST.get('phnum1')
         alternatenum=request.POST.get('phnum2')
-        username=request.POST.get('uname')
+        email=request.POST.get('email')
         password=request.POST.get('pass')
-        uslg="insert into login(username,password,type) values('"+str(username)+"','"+str(password)+"','"+str(u)+"');"
-        urg="insert into user_reg(firstname,lastname,dob,gender,address,state,district,place,pincode,contactnum,alternatenum,username,password) values('"+str(fname)+"','"+str(lname)+"','"+str(dob)+"','"+str(gender)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str(alternatenum)+"','"+str(username)+"','"+str(password)+"');"
+        uslg="insert into login(email,password,type) values('"+str( email)+"','"+str(password)+"','"+str(u)+"');"
+        urg="insert into user_reg(firstname,lastname,dob,gender,address,state,district,place,pincode,contactnum,alternatenum,email,password) values('"+str(fname)+"','"+str(lname)+"','"+str(dob)+"','"+str(gender)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str(alternatenum)+"','"+str( email)+"','"+str(password)+"');"
         c.execute(uslg)
         c.execute(urg)
         con.commit()
      
-    return render(request,'User_Registration.html')
+    return render(request,'User_Registration.html',{'v':321})
 
 
 def stafreg(request):
@@ -82,10 +82,10 @@ def stafreg(request):
         pincode=request.POST.get('pin')
         contactnum=request.POST.get('phnum1')
         alternatenum=request.POST.get('phnum2')
-        username=request.POST.get('uname')
+        email=request.POST.get('email')
         password=request.POST.get('pass')
-        stflg="insert into login(username,password,type) values('"+str(username)+"','"+str(password)+"','"+str(s)+"');"
-        stfrg="insert into staff_reg(firstname,lastname,dob,gender,qualification,address,state,district,place,pincode,contactnum,alternatenum,username,password) values('"+str(fname)+"','"+str(lname)+"','"+str(dob)+"','"+str(gender)+"','"+str(qualification)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str(alternatenum)+"','"+str(username)+"','"+str(password)+"');"
+        stflg="insert into login(email,password,type) values('"+str( email)+"','"+str(password)+"','"+str(s)+"');"
+        stfrg="insert into staff_reg(firstname,lastname,dob,gender,qualification,address,state,district,place,pincode,contactnum,alternatenum, email,password) values('"+str(fname)+"','"+str(lname)+"','"+str(dob)+"','"+str(gender)+"','"+str(qualification)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str(alternatenum)+"','"+str( email)+"','"+str(password)+"');"
         c.execute(stfrg)
         c.execute(stflg)
         con.commit()
@@ -102,10 +102,10 @@ def labreg(request):
         pincode=request.POST.get('pin')
         contactnum=request.POST.get('phnum1')
         
-        username=request.POST.get('uname')
+        email=request.POST.get('email')
         password=request.POST.get('pass')
-        lblg="insert into login(username,password,type) values('"+str(username)+"','"+str(password)+"','"+str(l)+"');"
-        lbrg="insert into lab_reg(labname,address,state,district,place,pincode,contactnum,username,password) values('"+str(labname)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str(username)+"','"+str(password)+"');"
+        lblg="insert into login(email,password,type) values('"+str(email)+"','"+str(password)+"','"+str(l)+"');"
+        lbrg="insert into lab_reg(labname,address,state,district,place,pincode,contactnum,email,password) values('"+str(labname)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str( email)+"','"+str(password)+"');"
         
         c.execute(lblg)
         c.execute(lbrg)
@@ -124,9 +124,18 @@ def category(request):
         adtst="insert into test_category(category_name,test_type,rate) values('"+str(tstcat)+"','"+str(tsttype)+"','"+str(rate)+"');"
         c.execute(adtst)
         con.commit()
+   
     return render(request,"Add_TestCategory.html")
-#def newtst(request):
- #   return render(request,"Add_NewTest.html")
+def newtst(request):
+    q="select * from test_category"
+    c.execute(q)
+    result=c.fetchall()
+    ar=[]
+    for item in result:
+       ar.append([item[0],item[1]])
+    print(ar)
+    cat=['blood','routine','a','b']
+    return render(request,"Add_NewTest.html",{'cat':ar})
 
 
     
