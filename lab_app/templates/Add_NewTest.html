@@ -8,23 +8,21 @@ h2 {text-align: center;}
 
 <body>
 <form method="post">
+{{type(cat)}}
 {%csrf_token %}
-<h2><text-align:"center">Add Test Type</align></h2>
+<h2><text-align:"center">Add New Test </align></h2>
 
 <table align="center">
 
-
+<tr><td>Enter Your Category : </td>
+<td><input type="text" name="cate"></td></tr>
 <tr><td>select Your Test Category : </td>
     <td><select >
-    <option selected disabled="true">..........select test category........</option>
-        <option>blood</option>
-          <option>routine test</option>
-          <option>routine test</option>
-                
-      </td></select></tr>
-
-
-
+    <option selected disabled="true">..........select your added test category........</option>
+        {% for item in cat %}
+        <option value="{{item}}">{{item}}</option>
+        {% endfor %}
+          </td></tr></select>
 <tr>
 <td>Enter Your Test Type :</td>
 <td><input type="text" name="type"></td></tr>

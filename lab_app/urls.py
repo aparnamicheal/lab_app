@@ -6,6 +6,8 @@ urlpatterns = [
     path('userreg',views.ureg),
     path('staff',views.stafreg),
     path('doct',views.addoct),
-    path('category',views.category)
+    path('category',views.category),
+    path("newtest",views.newtst),
+    path("mail",views.mail),
     
 ]
