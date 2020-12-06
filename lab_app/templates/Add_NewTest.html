@@ -8,7 +8,7 @@ h2 {text-align: center;}
 
 <body>
 <form method="post">
-{{type(cat)}}
+
 {%csrf_token %}
 <h2><text-align:"center">Add New Test </align></h2>
 
@@ -20,7 +20,8 @@ h2 {text-align: center;}
     <td><select >
     <option selected disabled="true">..........select your added test category........</option>
         {% for item in cat %}
-        <option value="{{item}}">{{item}}</option>
+       
+        <option value="{{item.0}}">{{ item.1 }}</option>
         {% endfor %}
           </td></tr></select>
 <tr>

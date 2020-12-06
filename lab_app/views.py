@@ -127,15 +127,11 @@ def category(request):
    
     return render(request,"Add_TestCategory.html")
 def newtst(request):
+    
     q="select * from test_category"
     c.execute(q)
     result=c.fetchall()
-    ar=[]
-    for item in result:
-       ar.append([item[0],item[1]])
-    print(ar)
-    cat=['blood','routine','a','b']
-    return render(request,"Add_NewTest.html",{'cat':ar})
+    return render(request,"Add_NewTest.html",{'cat':result})
 
 
     
