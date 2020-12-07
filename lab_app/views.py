@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
+
+
 import pymysql
 
 from django.core.mail import send_mail
@@ -111,15 +113,21 @@ def labreg(request):
         c.execute(lblg)
         c.execute(lbrg)
         con.commit()
-    #if 'labsub' in request.POST:
-        subject = 'Welocme........!'
+        
+            #email validation#
+        
         email=request.POST.get('email')
         p=request.POST.get('pass')
+        subject = 'Welocme........!'
         message = "your login password:%s" % (p)
         send_mail(subject, message, EMAIL_HOST_USER, [email], fail_silently = False)
         return HttpResponse("mail send")
+        
     return render(request,'Add_Lab.html')
-
+        
+      
+    
+        
 
 
 def addoct(request):
@@ -134,18 +142,20 @@ def category(request):
    
     return render(request,"Add_TestCategory.html")
 def newtst(request):
+    q="select * from test_category"
+    c.execute(q)
+    result=c.fetchall()
+       
+
     if 'save' in request.POST:
+        
         tstcat=request.POST.get('cat')
         tsttype=request.POST.get('type')
         rate=request.POST.get('rate')
         addnwtst="insert into new_test(category_name,type,rate) values('"+str(tstcat)+"','"+str(tsttype)+"','"+str(rate)+"');"
         c.execute(addnwtst)
         con.commit()  
-    q="select * from test_category"
-    c.execute(q)
-    result=c.fetchall()
-    return render(request,"Add_NewTest.html",{'cat':result})   
-
+    return render(request,"Add_NewTest.html",{'cat':result})
 
     
 
