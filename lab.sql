@@ -129,10 +129,11 @@ INSERT INTO `login` (`email`, `password`, `type`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `new_test` (
-  `category_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(50) NOT NULL,
   `type` varchar(50) NOT NULL,
-  `rate` int(11) NOT NULL
+  `rate` int(11) NOT NULL,
+  PRIMARY KEY(`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -140,15 +141,11 @@ CREATE TABLE IF NOT EXISTS `new_test` (
 --
 
 INSERT INTO `new_test` (`category_id`, `category_name`, `type`, `rate`) VALUES
-(0, 'None', 'rbc', 10),
-(0, 'None', 'wbc', 50),
-(0, 'None', 'rbc', 10),
-(0, 'None', 'rbc', 10),
-(0, 'None', 'rbc', 10),
-(0, 'None', 'aq', 10),
-(0, 'None', 'rbc', 10),
-(0, '4', 'rbc', 10),
-(0, '1', 'wbc', 10);
+(1, 'None', 'rbc', 10),
+(2, 'None', 'wbc', 50),
+(3, 'None', 'rbc', 10),
+(4, 'None', 'rbc', 10),
+(5, 'None', 'rbc', 10);
 
 -- --------------------------------------------------------
 
