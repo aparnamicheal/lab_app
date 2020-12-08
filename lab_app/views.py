@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
-
+import re
+from django.utils.crypto import get_random_string
 
 import pymysql
 
@@ -69,7 +70,7 @@ def ureg(request):
         c.execute(urg)
         con.commit()
      
-    return render(request,'User_Registration.html',{'v':321})
+    return render(request,'User_Registration.html')
 
 
 def stafreg(request):
@@ -96,6 +97,13 @@ def stafreg(request):
         con.commit()
     return render(request,'Add_Staff.html')
 
+
+
+def validateEmail(email):   
+        if len(email) > 6:
+            if re.match(r'\b[\w.-]+@[\w.-]+.\w{2,4}\b', email) != None:
+                return 1
+        return 0
 def labreg(request):
     if 'labsub' in request.POST:
         l='lab'
@@ -109,27 +117,25 @@ def labreg(request):
         email=request.POST.get('email')
         password=request.POST.get('pass')
         lblg="insert into login(email,password,type) values('"+str(email)+"','"+str(password)+"','"+str(l)+"');"
-        lbrg="insert into lab_reg(labname,address,state,district,place,pincode,contactnum,email,password) values('"+str(labname)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str( email)+"','"+str(password)+"');"
+        lbrg="insert into lab_reg(labname,address,state,district,place,pincode,contactnum,email,password) values(%s,%s,%s,%s,%s,%s,%s,%s,%s);"
         c.execute(lblg)
-        c.execute(lbrg)
+        c.execute(lbrg,(labname,address,state,district,place,pincode,contactnum,email,password))
         con.commit()
-        
-            #email validation#
-        
         email=request.POST.get('email')
-        p=request.POST.get('pass')
-        subject = 'Welocme........!'
-        message = "your login password:%s" % (p)
-        send_mail(subject, message, EMAIL_HOST_USER, [email], fail_silently = False)
-        return HttpResponse("mail send")
-        
-    return render(request,'Add_Lab.html')
+        n=validateEmail(email)
+       
+        if(n==1):
+            p=request.POST.get('pass')
+            subject = 'Welocme........!'
+            message = "your login password:%s" % (p)
+            send_mail(subject, message, EMAIL_HOST_USER, [email], fail_silently = False)          
+            return HttpResponse("mail send")
+        else:
+            return HttpResponse("mail id invalid")
+    rand_password = get_random_string(length=10)
+    return render(request,'Add_Lab.html',{'rand_password':rand_password})
         
       
-    
-        
-
-
 def addoct(request):
     return render(request,'Add_Doctor.html')
 
@@ -139,26 +145,22 @@ def category(request):
         adtst="insert into test_category(category_name) values('"+str(tstcat)+"');"
         c.execute(adtst)
         con.commit()
-   
     return render(request,"Add_TestCategory.html")
+
 def newtst(request):
     q="select * from test_category"
     c.execute(q)
     result=c.fetchall()
-       
-
     if 'save' in request.POST:
-        
-        tstcat=request.POST.get('cat')
+        catid=request.POST.get('cat')
         tsttype=request.POST.get('type')
         rate=request.POST.get('rate')
-        addnwtst="insert into new_test(category_name,type,rate) values('"+str(tstcat)+"','"+str(tsttype)+"','"+str(rate)+"');"
+        addnwtst="insert into test_type(category_id,type_name,rate) values('"+str(catid)+"','"+str(tsttype)+"','"+str(rate)+"');"
         c.execute(addnwtst)
         con.commit()  
     return render(request,"Add_NewTest.html",{'cat':result})
-
+       
     
-
     
 
 
