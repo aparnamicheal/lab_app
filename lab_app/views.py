@@ -17,6 +17,7 @@ def log(request):
         email=request.POST.get("email")
         pwd=request.POST.get("pass")
         s="select count(*) from login where email='"+email+"'"
+       
         c.execute(s)
         r=c.fetchone()
         if(r[0]>0):
