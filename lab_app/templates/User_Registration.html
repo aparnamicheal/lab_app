@@ -1,21 +1,89 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-h2 {text-align: center;}
+h2{text-align: center;}
+body{
+    font-family:'Times New Roman', Times, serif,Helvetica, sans-serif;
+    background-color: #f4f4f4;
+}
+.container{
+    background-color: #b2beb5;
+    max-width: 500px;
+    margin:auto;
+    border:3px solid #73ad21;
+}
+input[type=text],input[type=password],textarea{
+    width:100%;
+    padding: 7px;
+    margin: 5px 0 10px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+td{width:50px}
+tr{height: 9px;}
+input[type=text],input[type=password]:focus{
+    background-color: #f1f2f2;
+    outline:none;
+}
+div{
+    padding: 2px 0;
+}
+hr{
+    border:1px solid #f1f1f1;
+    margin-bottom: 2px;
+}
+.registerbtn{
+    background-color: #c4d8ee;
+    color:black;
+    padding: 10px 10px;
+    margin:8px 0;
+    margin-left: 80px ;
+    border: none;
+    cursor: pointer;
+    width: 50%;
+    opacity: 0.9;
+}
+.registerbtn{
+    opacity: 2;
+}
+.register{
+    background-color: #c4d8ee;
+    color:black;
+    padding: 10px 10px;
+    margin:8px 0;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+    width: 50%;
+    opacity: 0.9;
+}
+.register{
+    opacity: 2;
+}
+table.center{
+    margin-left: auto;
+    margin-right: auto;
+
+}
 </style>
 </head>
 
-<body>
+<body >
+
 <form  method="post">
 {%csrf_token %}
-<h2><text-align:"center">User Registration Form</align></h2>
+<div class="container">
+<center><h2><u>User Registration</u></h2></center>
+<hr>
+<table class="center">
 
-<table align="center">
 <tr><td> First Name : </td>
-<td><input type="text" name="fname"></td>
-<td> Last Name : </td>
-<td><input type="text" name="lname"></td>
+<td><input type="text" name="fname"></td></tr>
+<tr><td> Last Name : </td>
+<td><input type="text" name="lname"></td></tr>
 </tr>
 
 <tr><td>DOB :</td>
@@ -29,26 +97,29 @@ h2 {text-align: center;}
 <td><textarea name="addr" rows="4" cols="30"></textarea></td></tr>
 <tr>
 <td>State :</td>
-<td><input type="text" name="state"></td>
-<td>District : </td>
+<td><input type="text" name="state"></td></tr>
+<tr><td>District : </td>
 <td><input type="text" name="dis"></td></tr>
 
 <tr><td>Place:</td>
-<td><input type="text" name="place"></td>
-<td>Pin Code : </td>
+<td><input type="text" name="place"></td></tr>
+<tr><td>Pin Code : </td>
 <td><input type="text" name="pin"></td></tr>
 
-<tr><td>Contact Number :{{v}}</td>
-<td><input type="text" name="phnum1"></td>
-<td>Alternate Number : </td>
+<tr><td>Contact Number :</td>
+<td><input type="text" name="phnum1"></td></tr>
+<tr><td>Alternate Number : </td>
 <td><input type="text" name="phnum2"></td></tr>
 
 <tr><td>Email :</td>
 <td><input type="text" name="email"></td></tr>
 <tr><td>Password : </td>
 <td><input type="text" name="pass"></td></tr>
-<tr><td><input type="submit" name="user" value="submit"></td></tr>
+<tr><td><button type="submit" class="registerbtn" name="user" value="submit">submit</td>
+    <td><button type="submit" class="register" name="back" value="Back">back</td></tr>
 </table>
+
 </form>
+</div>
 </body>
 </html>
