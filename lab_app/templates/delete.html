@@ -1,37 +1,56 @@
 <!DOCTYPE html>
 <html>
+  
 <style>
 div {
-  background-color: white;
-  width: 300px;
-  border: 2px solid black;
-  padding: 50px;
+  background-color: rgb(173, 166, 164);
+  width: 200px;
+  border: 4px solid rgb(17, 18, 19);
+  padding: 30px;
   margin-left:500px;
   margin-top: 200px;
 }
 .center {
   margin: 0;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 40%;
+  left: 40%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
 </style>
 <body >
-    <form method="post">
+  <!--<form onsubmit="myFunction()" method="POST">
+   <form method="post" onsubmit="return confirm('deleted')">-->
+    <form method="POST">
             {%csrf_token %}
         
-   
+          
     <div>
       
-      <p>Do you wnat to delete your account ? {{email}} </p>
-        <center>
-        <input type="submit"  name="yes" value="yes">
-        <input type="submit"  name="no" value="no">
+      <p><center>Do you want to delete your account ? </center> </p>
+      <center>
+        
+        <input type="submit"  name="yes" value="yes" onclick="myalert()">
+        <input type="submit"  name="no" value="no" >
+        
       </center>
     </div>
-    </form>
+  
+  <script> 
+    function myalert() { 
+        alert("Deleted"); 
+    } 
+    function myalert2() { 
+        alert("not deleted"); 
+    } 
+</script> 
+</form>
+    <!--<script>
+      function myFunction() {
+        alert("deleted");
+      }
+      </script>-->
 </body>
 </html>

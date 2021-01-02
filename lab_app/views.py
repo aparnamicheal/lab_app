@@ -74,7 +74,7 @@ def ureg(request):
         con.commit()
         
     if 'back' in request.POST:
-      return render(request,"user_home.html")
+      return render(request,"index.html")
     return render(request,'User_Registration.html',{'v':321})
 
 
@@ -239,7 +239,6 @@ def admin_home(request):
     return render(request,"admin_home.html")
 
 def delete(request):
-      
     v = list(context.values())[0]
     s ="select email from user_reg where email='"+str(v)+"'"
     c.execute(s)
@@ -247,12 +246,39 @@ def delete(request):
     if 'yes' in request.POST:
         #sql = "DELETE FROM login WHERE email='apsara@gmail.com'"
         sql = "DELETE FROM login WHERE email='"+str(v)+"'"
+        sq = "DELETE FROM user_reg WHERE email='"+str(v)+"'"
         c.execute(sql)
+        c.execute(sq)
         con.commit()
-        print("deleted")
+        
+        return render(request,"index1.html")
     if 'no' in request.POST:
         return render(request,"index1.html")
 
     return render(request,"delete.html")   
 
+def userprofile2(request):
+    v = list(context.values())[0]
+   
+    s ="select firstname,lastname,dob,gender,address,state,district,place,pincode,contactnum,alternatenum,email from user_reg where email='"+str(v)+"'"
+    c.execute(s)
+    result = c.fetchone()
+    
+    context['fname']=result[0]
+    context['lname']=result[1]
+    context['dob']=result[2]
+    context['gender']=result[3]
+    context['address']=result[4]
+    context['state']=result[5]
+    context['district']=result[6]
+    context['place']=result[7]
+    context['pincode']=result[8]
+    context['contactnum']=result[9]
+    context['alternatenum']=result[10]
+    context['email']=result[11]
+    
+    if 'back' in request.POST:
+       return render(request,"index1.html",context)
+    return render(request,"user_profile2.html",context)
+    
 
