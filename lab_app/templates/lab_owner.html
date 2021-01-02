@@ -44,8 +44,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <li class="current_page"><a href="http://127.0.0.1:8000/lab">Home</a></li>
             <li><a href="http://127.0.0.1:8000/labprofile">Lab Profile</a></li>
             <li><a href="http://127.0.0.1:8000/staff">Add Staff</a></li>
-            <li><a href="http://127.0.0.1:8000/category">Add New Test Category</a></li>
-            <li><a href="http://127.0.0.1:8000/newtest">Add New Test Type</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add New Test<span class="caret"></span></a>
+                <ul class="dropdown-menu drop_menu" role="menu">
+                  <li><a href="http://127.0.0.1:8000/category">Test Category</a></li>
+                  <li><a href="http://127.0.0.1:8000/newtest">Test Type</a></li>
+                </ul>
+              </li>
             <li><a href="http://127.0.0.1:8000/lab">Logout</a></li>
         </div>
 	</nav>

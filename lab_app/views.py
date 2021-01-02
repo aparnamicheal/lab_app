@@ -10,7 +10,7 @@ from lab.settings import EMAIL_HOST_USER
 con = pymysql.connect("localhost","root","","lab")
 c = con.cursor()
 
-#context={}
+context={}
 def log(request):
     msg=""
     if(request.POST):
@@ -25,22 +25,22 @@ def log(request):
             c.execute(s)
             r=c.fetchone()
             if(r[1]==pwd):
-                request.session['email']='email'
-                #context['email']=email
+                #request.session['email']='email'
+                context['email']=email
                 
                 if(r[2]=='admin'):
                     msg="success !"
                    # admin home page........#
-                    return render(request,'admin_home.html')
+                    return render(request,'admin_home.html',context)
                     #db.commit
                 elif (r[2]=='user'):
                     msg="success !"
                     # user home page #
-                    return render(request,'user_home.html')
+                    return render(request,'user_home.html',context)
                 elif(r[2]=='labowner'):
                     msg="success !"
                     # lab owner home page........#
-                    return render(request,'lab_owner.html')
+                    return render(request,'lab_owner.html',context)
                 elif (r[2]=='staff'):
                     msg="success !"
                     # staff home page...........#
@@ -52,7 +52,7 @@ def log(request):
     return render(request,'Login.html',{"msg":msg})
 
 def ureg(request):
-    if 'user' in request.POST:
+    if 'submit' in request.POST:
         u='user'
         fname=request.POST.get('fname')
         lname=request.POST.get('lname')
@@ -72,8 +72,9 @@ def ureg(request):
         c.execute(uslg)
         c.execute(urg)
         con.commit()
+        
     if 'back' in request.POST:
-        return render(request,"index.html") 
+      return render(request,"user_home.html")
     return render(request,'User_Registration.html',{'v':321})
 
 
@@ -189,15 +190,69 @@ def newtst(request):
        #lab owner home page....#
        return render(request,"lab_owner.html") 
     return render(request,"Add_NewTest.html",{'cat':result})
+    
+    #..............templates............#
+
 def indx(request):
     return render(request,"index.html")
+
+def index1(request):
+    return render(request,"index1.html")
+
+def index2(request):
+    return render(request,"index2.html")
+
+#...............................................#
+def userprofile(request):
+    v = list(context.values())[0]
+   
+    s ="select firstname,lastname,dob,gender,address,state,district,place,pincode,contactnum,alternatenum,email from user_reg where email='"+str(v)+"'"
+    c.execute(s)
+    result = c.fetchone()
+    
+    context['fname']=result[0]
+    context['lname']=result[1]
+    context['dob']=result[2]
+    context['gender']=result[3]
+    context['address']=result[4]
+    context['state']=result[5]
+    context['district']=result[6]
+    context['place']=result[7]
+    context['pincode']=result[8]
+    context['contactnum']=result[9]
+    context['alternatenum']=result[10]
+    context['email']=result[11]
+    
+    if 'back' in request.POST:
+       return render(request,"user_home.html",context)
+    return render(request,"user_profile.html",context)
+    
+    
+    
+    
+
 def user_home(request):
-    return render(request,"user_home.html")
+    return render(request,"user_home.html",context)
 def labowner_home(request):
     return render(request,"lab_owner.html")
 def admin_home(request):
     return render(request,"admin_home.html")
 
-    
+def delete(request):
+      
+    v = list(context.values())[0]
+    s ="select email from user_reg where email='"+str(v)+"'"
+    c.execute(s)
+    #result = c.fetchone()
+    if 'yes' in request.POST:
+        #sql = "DELETE FROM login WHERE email='apsara@gmail.com'"
+        sql = "DELETE FROM login WHERE email='"+str(v)+"'"
+        c.execute(sql)
+        con.commit()
+        print("deleted")
+    if 'no' in request.POST:
+        return render(request,"index1.html")
+
+    return render(request,"delete.html")   
 
 
