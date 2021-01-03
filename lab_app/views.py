@@ -16,24 +16,29 @@ def log(request):
     if(request.POST):
         email=request.POST.get("email")
         pwd=request.POST.get("pass")
+        print("hi")
         s="select count(*) from login where email='"+email+"'"
        
         c.execute(s)
         r=c.fetchone()
+        print(r)
         if(r[0]>0):
+             
             s="select * from login where email='"+email+"'"
             c.execute(s)
             r=c.fetchone()
+           
             if(r[1]==pwd):
+
                 #request.session['email']='email'
                 context['email']=email
                 
                 if(r[2]=='admin'):
                     msg="success !"
                    # admin home page........#
-                    return render(request,'admin_home.html',context)
+                    return render(request,'admin_home.html')
                     #db.commit
-                elif (r[2]=='user'):
+                elif(r[2]=='user'):
                     msg="success !"
                     # user home page #
                     return render(request,'user_home.html',context)
@@ -41,7 +46,7 @@ def log(request):
                     msg="success !"
                     # lab owner home page........#
                     return render(request,'lab_owner.html',context)
-                elif (r[2]=='staff'):
+                elif(r[2]=='staff'):
                     msg="success !"
                     # staff home page...........#
             else:
@@ -72,9 +77,10 @@ def ureg(request):
         c.execute(uslg)
         c.execute(urg)
         con.commit()
-        
+        return render(request,"index.html")
+    
     if 'back' in request.POST:
-      return render(request,"index.html")
+        return render(request,"index.html")
     return render(request,'User_Registration.html',{'v':321})
 
 
@@ -102,14 +108,14 @@ def stafreg(request):
         con.commit()
         email=request.POST.get('email')
         n=validateEmail(email)
-       
+        
         if(n==1):
             p=request.POST.get('pass')
             subject = 'Welocme........!'
             message = "your login password:%s" % (p)
             send_mail(subject, message, EMAIL_HOST_USER, [email], fail_silently = False)          
-            return HttpResponse("mail send")
-        
+            #return HttpResponse("mail send")
+            return render(request,"lab_owner.html")
         else:
             return HttpResponse("mail id invalid")
     rand_password = get_random_string(length=10)
@@ -169,6 +175,7 @@ def category(request):
         adtst="insert into test_category(category_name) values('"+str(tstcat)+"');"
         c.execute(adtst)
         con.commit()
+        return render(request,"lab_owner.html") 
     if 'back' in request.POST:
        #lab owner home page....#
        return render(request,"lab_owner.html") 
@@ -224,7 +231,7 @@ def userprofile(request):
     context['email']=result[11]
     
     if 'back' in request.POST:
-       return render(request,"user_home.html",context)
+       return render(request,"index1.html",context)
     return render(request,"user_profile.html",context)
     
     
@@ -251,34 +258,15 @@ def delete(request):
         c.execute(sq)
         con.commit()
         
-        return render(request,"index1.html")
+        return render(request,"index.html")
     if 'no' in request.POST:
         return render(request,"index1.html")
 
     return render(request,"delete.html")   
 
-def userprofile2(request):
-    v = list(context.values())[0]
-   
-    s ="select firstname,lastname,dob,gender,address,state,district,place,pincode,contactnum,alternatenum,email from user_reg where email='"+str(v)+"'"
-    c.execute(s)
-    result = c.fetchone()
+
+def change_password(request):
     
-    context['fname']=result[0]
-    context['lname']=result[1]
-    context['dob']=result[2]
-    context['gender']=result[3]
-    context['address']=result[4]
-    context['state']=result[5]
-    context['district']=result[6]
-    context['place']=result[7]
-    context['pincode']=result[8]
-    context['contactnum']=result[9]
-    context['alternatenum']=result[10]
-    context['email']=result[11]
-    
-    if 'back' in request.POST:
-       return render(request,"index1.html",context)
-    return render(request,"user_profile2.html",context)
+    return render(request,"Change_password.html")
     
 
