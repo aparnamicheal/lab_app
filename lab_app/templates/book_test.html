@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+    div {
+                background-color:white;
+                width: 400px;
+                border: 2px solid rgb(17, 18, 19);
+                padding: 30px;
+                margin-top: 100px;
+                margin-left: 0px;
+              }
+              .center {
+                margin: 0;
+                position: absolute;
+                top: 40%;
+                left: 40%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+              }
+              
+</style>
+<body bgcolor="gray">
+<form method="POST">
+    {%csrf_token %}
+    <table align="center">
+        
+            <td><select name="district">
+            <option selected disabled="true">..........select your district........</option>
+            <option value="ernakulam">ernakulam</option>
+            <option value="idukki">idukki</option>
+            <option value="kochi">Kochi</option>
+            <option value="edappally">edappally</option>
+            </select>
+            <select name="place">
+            <option selected disabled="true">..........select your place........</option>
+            <option value="varapuzha">varapuzha</option>
+            <option value="koonammavu">koonammavu</option>
+            <option value="Karuvelippadi">Karuvelippadi</option>
+            <option value="aluva">aluva</option>
+            </select>
+            <input type="submit" name="sub">
+              
+            
+
+              <div>
+                {% for i in item %}
+                {{i.0}} <br>
+                {{i.1}}<br>
+                {{i.2}}<br>
+                {{i.3}}<br>
+                {% endfor %}
+              </div>
+              
+          
+                    
+        </body>
+</html>

@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+	<head>
+        <title>staff profile</title>
+        
+    </head>
+    <body>
+        <form method="post">
+            {%csrf_token %}
+        <img src="{% static 'userprofile.png' %}" alt="user" width="70" height="70">
+        <h4 style="color: rgb(20, 9, 126);"><u>User Details</u></h4>
+        <p style="color: black;">Firstname  : {{fname}}<br>
+            Lastname        :{{lname}}<br>
+            Dob             :{{dob}}<br>
+            Gender          :{{gender}}<br>
+            Qualification   :{{quali}}<br>
+            Address         :{{address}}<br>
+            State           :{{state}}<br>
+            District        :{{district}}<br>
+            Place           :{{place}}<br>
+            Pincode         :{{pincode}}<br>
+            Contactnum      :{{contactnum}}<br>
+            Alternatnum     :{{alternatenum}}<br>
+            Email           :{{email}}
+       </p>
+       <input type="submit" name="back" value="Back">
+       </form>
+    </body>   
+</html> 
