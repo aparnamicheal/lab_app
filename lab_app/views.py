@@ -193,7 +193,8 @@ def newtst(request):
     c.execute(q)
     result=c.fetchall()
     if 'save' in request.POST:
-        catid=request.POST.get('cat')
+        catid=request.POST.get('cat') 
+        print(catid)
         tsttype=request.POST.get('type')
         rate=request.POST.get('rate')
         addnwtst="insert into test_type(category_id,type_name,rate) values('"+str(catid)+"','"+str(tsttype)+"','"+str(rate)+"');"
@@ -331,14 +332,16 @@ def book_test(request):
     return render(request,"book_test.html",{'item':result})
 
 def book_now(request):
+    r=""
     q="select * from test_category"
     c.execute(q)
     result=c.fetchall()
-    v=result[0][0]
-    print(v)
-    r="hi"
-    s="select * from test_type where category_id='"+str(v)+"'"
-    c.execute(s)
-    r=c.fetchall()
-    print(r)
+    print(result)
+    if 'ok' in request.POST:
+        catid=request.POST.get('cat') 
+        print(catid)
+        s="select * from test_type where category_id='"+str(catid)+"'"
+        c.execute(s)
+        r=c.fetchall()
+   
     return render(request,"book_now.html",{'cat':result,'cat1':r})
