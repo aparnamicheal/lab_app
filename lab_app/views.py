@@ -329,3 +329,16 @@ def book_test(request):
         result = c.fetchall()
         print(result)
     return render(request,"book_test.html",{'item':result})
+
+def book_now(request):
+    q="select * from test_category"
+    c.execute(q)
+    result=c.fetchall()
+    v=result[0][0]
+    print(v)
+    r="hi"
+    s="select * from test_type where category_id='"+str(v)+"'"
+    c.execute(s)
+    r=c.fetchall()
+    print(r)
+    return render(request,"book_now.html",{'cat':result,'cat1':r})

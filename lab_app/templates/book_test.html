@@ -1,6 +1,6 @@
+
 <!DOCTYPE html>
 <html>
-
 <style>
     div {
                 background-color:white;
@@ -42,15 +42,24 @@
             <input type="submit" name="sub">
               
             
-
-              <div>
+               
+                {% if item %}
+                
+                
                 {% for i in item %}
-                {{i.0}} <br>
+                <div id="bktest">
+              <b>  {{i.0}} </b><br>
                 {{i.1}}<br>
                 {{i.2}}<br>
-                {{i.3}}<br>
-                {% endfor %}
+                {{i.3}}
+
+                <input type="submit" name="booknow" value="Book Now">
               </div>
+                {% endfor %}
+                {% endif %}
+
+                
+              
               
           
                     

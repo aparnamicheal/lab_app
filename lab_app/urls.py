@@ -21,7 +21,8 @@ urlpatterns = [
     path("change_password",views.change_password),
     path("staff_view",views.staff_view),
     path("staff_home",views.staff_home),
-    path("book_test",views.book_test)
+    path("book_test",views.book_test),
+    path("book_now",views.book_now),
     ]
 
 
