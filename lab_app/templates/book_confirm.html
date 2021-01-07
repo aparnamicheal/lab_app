@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+h2 {text-align: center;}
+</style>
+</head>
+
+<body>
+<form method="post">
+{%csrf_token %}
+<h2><text-align:"center">Booking </align></h2>
+
+<table align="center">
+<tr><td> First Name : </td>
+<td><input type="text" name="fname" value="{{fname}}"></td>
+</tr>
+<tr><td>Last Name : </td>
+    <td><input type="text" name="lname"></td>
+    </tr>
+<tr><td>DOB :</td>
+    <td><input type="date" name="dob"></td></tr>
+    
+    <tr><td>Gender :</td>
+    <td><input type="radio" name="gender" value="male">Male
+        <input type="radio" name="gender" value="female">Female
+        <input type="radio" name="gender" value="others">Others</td></tr>
+<tr><td>Address :</td>
+<td><textarea name="addr" rows="4" cols="30"></textarea></td></tr>
+
+<tr>
+<td>State :</td>
+<td><input type="text" name="state"></td></tr><tr>
+<td>District : </td>
+<td><input type="text" name="dis"></td></tr>
+
+<tr><td>Place:</td>
+<td><input type="text" name="place"></td>
+
+
+<tr><td>Contact Number :</td>
+<td><input type="text" name="phnum1"></td></tr>
+<tr><td>Email :</td>
+    <td><input type="text" name="email"></td></tr>
+<tr><td>Selected Tests:</td>
+    <td><input type="text" name="tests"></td></tr>
+    <tr><td>Booking Date:</td>
+    <td><input type="date" name="date"></td></tr>
+<!--<tr><td><input type="submit" name="cancel" value="Cancel"></td></tr> -->       
+<tr><td><input type="submit" name="confirm" value="Confirm"></td></tr>
+</table>
+</form>
+</body>
+</html>

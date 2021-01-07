@@ -321,7 +321,6 @@ def book_test(request):
         place=request.POST.get('place')
         
         s="select count(*) from lab_reg where district='"+str(district)+"'"
-       
         c.execute(s)
         r=c.fetchone()
         print(r)
@@ -329,6 +328,8 @@ def book_test(request):
         c.execute(s)
         result = c.fetchall()
         print(result)
+    if 'booknow' in request.POST:
+        return render(request,"book_now.html")
     return render(request,"book_test.html",{'item':result})
 
 def book_now(request):
@@ -345,3 +346,43 @@ def book_now(request):
         r=c.fetchall()
    
     return render(request,"book_now.html",{'cat':result,'cat1':r})
+
+
+def book_confirm(request):
+    
+    v = list(context.values())[0]
+  
+    s ="select firstname,lastname,dob,gender,address,state,district,place,contactnum,alternatenum,email from user_reg where email='"+str(v)+"'"
+    c.execute(s)
+    result = c.fetchone()
+    
+    context['fname']=result[0]
+    context['lname']=result[1]
+    context['dob']=result[2]
+    context['gender']=result[3]
+    context['address']=result[4]
+    context['state']=result[5]
+    context['district']=result[6]
+    context['place']=result[7]
+   
+    context['contactnum']=result[8]
+    context['alternatenum']=result[9]
+    context['email']=result[10]
+    
+
+    return render(request,"book_confirm.html",context)
+
+def view_labtest(request):
+    r=""
+    q="select * from test_category"
+    c.execute(q)
+    result=c.fetchall()
+    print(result)
+    if 'ok' in request.POST:
+        catid=request.POST.get('cat') 
+        print(catid)
+        s="select * from test_type where category_id='"+str(catid)+"'"
+        c.execute(s)
+        r=c.fetchall()
+   
+    return render(request,"view_lab_test.html",{'cat':result,'cat1':r})

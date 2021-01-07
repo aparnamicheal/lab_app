@@ -23,6 +23,8 @@ urlpatterns = [
     path("staff_home",views.staff_home),
     path("book_test",views.book_test),
     path("book_now",views.book_now),
+    path("book_confirm",views.book_confirm),
+    path("view_labtest",views.view_labtest)
     ]
 
 
