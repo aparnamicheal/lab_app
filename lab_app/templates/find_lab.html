@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html>
+<html><head>
 <style>
     div {
                 background-color:white;
@@ -20,9 +20,10 @@
               }
               
 </style>
+</head>
 <body bgcolor="gray">
 <form method="POST">
-    {%csrf_token %}
+    {% csrf_token %}
     <table align="center">
         
             <td><select name="district">
@@ -58,11 +59,8 @@
               </div>
                 {% endfor %}
                 {% endif %}
-
-                
-              
-              
-          
-                    
-        </body>
-</html>
+                </td>
+                </table>
+                </form>
+              </body>
+              </html>

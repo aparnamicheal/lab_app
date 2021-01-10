@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html>
-<head>
+<head><title></title>
 <style>
-h2 {text-align: center;}
+h2{text-align: center;}
 </style>
 </head>
 
 <body>
-<form  method="post">
-{% csrf_token %}
-<h2><text-align:"center">Staff Details Form</align></h2>
+<form method="post">
+    {% csrf_token %}
+    <h2>Staff Details Form</h2>
 
 <table align="center">
 <tr><td> First Name : </td>
@@ -52,7 +51,7 @@ h2 {text-align: center;}
 <td><input type="text" name="email"></td></tr>
 <tr><td>Password : </td>
 <td><input type="text" name="pass" value={{rand_password}}></td></tr>
-<tr><td><input type="submit" name="staff" value="Add Staff"></td>
+<tr><td><input type="submit" name="staff" value="AddStaff"></td>
     <td><input type="submit" name="back" value="Back"></td></tr>
 </table>
 <script> 

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 <head>
 <style>
 h2 {text-align: center;}
@@ -23,47 +22,35 @@ div {
             .butn{
               padding-top: 200px;
             }
-
-</style>
-</head>
-
+            </style>
+            </head>
 <body>
 <form method="post">
-{%csrf_token %}
+{% csrf_token %}
 <div>
-  
 <h2><text-align:"center">Add Test Category</align></h2>
-
-
 <tr><td>    Enter Your Test Category : </td>
-<td><input type="text" name="cat"></td>
-</tr>
-
-    <tr><td><input type="submit" name="category" value="save"></td>
-       
-
-
-<h2><text-align:"center">Add New Test </align></h2>
-
-<table align="center">
-<tr><td>Book Now </td>
-    <td><select name="cat">
-    <option selected disabled="true">..........select your added test category........</option>
+<td><input type="text" name="cat"></td></tr>
+<tr><td><input type="submit" name="category" value="save"></td>
+      <h2><text-align:"center">Add New Test </align></h2>
+      <table align="center">
+      <tr><td>Book Now </td>
+      <td><select name="cat">
+      <option selected disabled="true">..........select your added test category........</option>
         {% for item in cat %}
        
         <option value="{{item.0}}">{{ item.3 }}</option>
         
         {% endfor %}
-          </td></tr></select>
-<tr>
-<td>Enter Your Test Type :</td>
-<td><input type="text" name="type"></td></tr>
-<tr><td>Rate : </td>
-<td><input type="text" name="rate"></td></tr>
-<butn>
-<td><input type="submit" name="save" value="Save"></td>
-<td><input type="submit" name="back" value="Back"></td></tr>
-</butn>
+        </td></tr></select>
+      <tr><td>Enter Your Test Type :</td>
+      <td><input type="text" name="type"></td></tr>
+      <tr><td>Rate : </td>
+      <td><input type="text" name="rate"></td></tr>
+    <butn>
+    <td><input type="submit" name="save" value="Save"></td>
+    <td><input type="submit" name="back" value="Back"></td></tr>
+  </butn>
 </table>
 </div>
 </form>

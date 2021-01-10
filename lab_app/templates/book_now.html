@@ -10,12 +10,8 @@
       }
       
     }
-    
-    
-    
-    
-	
-  </script>
+    </script>
+  <head>
 <style>
   
   tr,th{
@@ -42,10 +38,10 @@
     margin-bottom: 600%;
   }
 </style>
-
+</head>
 <body>
 <form method="post">
-{%csrf_token %}
+{% csrf_token %}
 
 <h1><b>Booking</h1></b>
 <butn>
@@ -75,17 +71,11 @@
           </tr>
           
             {% endfor %}
-            
-             
-</table>
-
+            </table>
 <butn2>
   <!--<input type="submit" name="sub2" value="Submit">-->
-    
-      <input type="button" name="sub1" value="submit" ></a>
-    
-</butn2>
+    <input type="button" name="sub1" value="submit"></a>
+    </butn2>
 </form>
 </body>
-
 </html>

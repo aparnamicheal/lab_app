@@ -8,7 +8,7 @@ urlpatterns = [
     path('doct_reg',views.doctreg),
     path('doctor_home',views.doctor_home),
     path('category',views.category),
-    path("newtest",views.newtst),
+    path("newtest",views.newtest),
     #index....# templates.........#
     path("lab",views.indx),
     path("index1",views.index1),
@@ -26,9 +26,11 @@ urlpatterns = [
     path("find_lab",views.find_lab),
     path("book_now",views.book_now),
     path("book_confirm",views.book_confirm),
-    path("view_labtest",views.view_labtest),
+    #path("view_labtest",views.view_labtest),
     path("lbowner_staffView",views.lbowner_staffView),
-    path("addstaff_home",views.addstaff_home)
+    path("addstaff_home",views.addstaff_home),
+    path("staff_delete",views.staff_delete),
+   
     ]
 
 

@@ -86,19 +86,22 @@ def ureg(request):
     
     if 'back' in request.POST:
         return render(request,"index.html")
-    return render(request,'User_Registration.html',{'v':321},context)
+    return render(request,'User_Registration.html',context)
             #.....................staff registration..........................#
 
 def stafreg(request):
-    #v = list(context.values())[0]
-    #print(v)
-    
+    v = list(context.values())[0]
+    print(v)
+    print(context)
     if 'staff' in request.POST:
-     #   ss="select labid,email from lab_reg where email='"+str(v)+"'"
-      #  c.execute(ss)
-       # r=c.fetchall()
-        #print(r)
-        #id=r[0]
+        s ="select labid from lab_reg where email='"+str(v)+"'"
+        c.execute(s)
+        result = c.fetchone()
+        a=result[0]
+       
+        print(result)
+        print(a)
+       
         s='staff'
         fname=request.POST.get('fname')
         lname=request.POST.get('lname')
@@ -115,13 +118,12 @@ def stafreg(request):
         email=request.POST.get('email')
         password=request.POST.get('pass')
         stflg="insert into login(email,password,type) values('"+str( email)+"','"+str(password)+"','"+str(s)+"');"
-        stfrg="insert into staff_reg(firstname,lastname,dob,gender,qualification,address,state,district,place,pincode,contactnum,alternatenum,email,password) values("+str(fname)+"','"+str(lname)+"','"+str(dob)+"','"+str(gender)+"','"+str(qualification)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str(alternatenum)+"','"+str(email)+"','"+str(password)+"');"
+        stfrg="insert into staff_reg(labid,firstname,lastname,dob,gender,qualification,address,state,district,place,pincode,contactnum,alternatenum,email,password) values('"+str(a)+"','"+str(fname)+"','"+str(lname)+"','"+str(dob)+"','"+str(gender)+"','"+str(qualification)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str(alternatenum)+"','"+str(email)+"','"+str(password)+"');"
         c.execute(stfrg)
         c.execute(stflg)
         con.commit()
         email=request.POST.get('email')
         n=validateEmail(email)
-        
         if(n==1):
             msg=("mail send")
             p=request.POST.get('pass')
@@ -129,17 +131,14 @@ def stafreg(request):
             message = "your login password:%s" % (p)
             send_mail(subject, message, EMAIL_HOST_USER, [email], fail_silently = False)          
             #return HttpResponse("mail send")
-           
-            return render(request,"Add_staff.html",{"msg":msg},context)
-            
-
+            return render(request,"Add_staff.html",{"msg":msg})
         else:
             msg=("invalid")
             return render(request,"Add_Staff.html",{"msg":msg})
     rand_password = get_random_string(length=10)
     if 'back' in request.POST:
         return render(request,"lab_owner.html")
-    return render(request,'Add_Staff.html',{'rand_password':rand_password},context)
+    return render(request,'Add_Staff.html',{'rand_password':rand_password})
 
 
 
@@ -150,7 +149,6 @@ def validateEmail(email):
         return 0
         #....................lab registration......................#
 def labreg(request):
-   
     if 'labsub' in request.POST:
         l='labowner'
         labname=request.POST.get('labname')
@@ -169,20 +167,18 @@ def labreg(request):
         con.commit()
         email=request.POST.get('email')
         n=validateEmail(email)
-       
         if(n==1):
             p=request.POST.get('pass')
             subject = 'Welcome........!'
             message = "your login password:%s" % (p)
             send_mail(subject, message, EMAIL_HOST_USER, [email], fail_silently = False)          
             return HttpResponse("mail send")
-           
         else:
             return HttpResponse("mail id invalid")
     rand_password = get_random_string(length=10)
     if 'back' in request.POST:
         return render(request,"admin_home.html")
-    return render(request,'Add_Lab.html',{'rand_password':rand_password},context)
+    return render(request,'Add_Lab.html',{'rand_password':rand_password})
         
       
        #...................add test category...........................#
@@ -192,7 +188,6 @@ def category(request):
     print(v)
     
     if 'category' in request.POST:
-        
         s ="select labid,email from lab_reg where email='"+str(v)+"'"
         c.execute(s)
         result = c.fetchone()
@@ -201,7 +196,6 @@ def category(request):
         print(result)
         print(a)
         print(b)
-        
         tstcat=request.POST.get('cat')
         print(tstcat)
         adtst="insert into test_category(labid,email,category_name) values('"+str(a)+"','"+str(b)+"','"+str(tstcat)+"');"
@@ -211,15 +205,14 @@ def category(request):
     if 'back' in request.POST:
        #lab owner home page....#
        return render(request,"lab_owner.html") 
-    return render(request,"Add_TestCategory.html",context)
-     #...........................add new test...............................#
-def newtst(request):
-
+    return render(request,"Add_TestCategory.html")
+     
+     #...........................add test category...............................#
+def newtest(request):
+    result=""
+    result1=""
     v = list(context.values())[0]
-    
-    
-    
-    
+    print(context)
     if 'category' in request.POST:
         
         s ="select labid,email from lab_reg where email='"+str(v)+"'"
@@ -230,25 +223,22 @@ def newtst(request):
         print(result)
         print(a)
         print(b)
-        
+        #............................add test type.............#
         tstcat=request.POST.get('cat')
         print(tstcat)
         adtst="insert into test_category(labid,email,category_name) values('"+str(a)+"','"+str(b)+"','"+str(tstcat)+"');"
         c.execute(adtst)
         con.commit()
-       
-    #if 'back' in request.POST:
-       #lab owner home page....#
-     #  return render(request,"lab_owner.html") 
-    #return render(request,"Add_NewTest.html",context)
-    
-    
+        
     q="select * from test_category"
     c.execute(q)
-    result=c.fetchall()
-    print(result)
+    result1=c.fetchall()
+    print(result1)
+    result=""
     if 'save' in request.POST:
+       
         s ="select labid,email from lab_reg where email='"+str(v)+"'"
+      
         c.execute(s)
         result = c.fetchone()
         a=result[0]
@@ -256,7 +246,6 @@ def newtst(request):
         print(result)
         print(a)
         print(b)
-
         catid=request.POST.get('cat') 
         print(catid)
         tsttype=request.POST.get('type')
@@ -264,11 +253,10 @@ def newtst(request):
         addnwtst="insert into test_type(labid,email,category_id,type_name,rate) values('"+str(a)+"','"+str(b)+"','"+str(catid)+"','"+str(tsttype)+"','"+str(rate)+"');"
         c.execute(addnwtst)
         con.commit()  
-    
     if 'back' in request.POST:
        #lab owner home page....#
        return render(request,"lab_owner.html") 
-    return render(request,"Add_NewTest.html",{'cat':result},context)
+    return render(request,"Add_NewTest.html",{'cat':result1})
     
     #..............templates............#
 
@@ -303,7 +291,7 @@ def userprofile(request):
     context['email']=result[11]
     
     if 'back' in request.POST:
-       return render(request,"index1.html",context)
+       return render(request,"index1.html",)
     return render(request,"user_profile.html",context)
     #.........................user profile delete......................#
 def delete(request):
@@ -370,36 +358,32 @@ def labownerprofile_index(request):
 
 #............................staff profile view............................#
 def staff_view(request):
-    m = list(context.values())[0]
-    
-    s ="select firstname,lastname,dob,gender,qualification,address,state,district,place,pincode,contactnum,alternatenum,email from staff_reg where email='"+str(m)+"'"
+    v = list(context.values())[0]
+    s="select * from staff_reg where email='"+str(v)+"'"
     c.execute(s)
-    
-    result = c.fetchone()
-    
-    context['fname']=result[0]
-    context['lname']=result[1]
-    context['dob']=result[2]
-    context['gender']=result[3]
-    context['quali']=result[4]
-    context['address']=result[5]
-    context['state']=result[6]
-    context['district']=result[7]
-    context['place']=result[8]
-    context['pincode']=result[9]
-    context['contactnum']=result[10]
-    context['alternatenum']=result[11]
+    result=c.fetchone()
+    context['fname']=result[2]
+    context['lname']=result[3]
+    context['dob']=result[4]
+    context['gender']=result[5]
+    context['quali']=result[6]
+    context['address']=result[7]
+    context['state']=result[8]
+    context['district']=result[9]
+    context['place']=result[10]
+    context['pincode']=result[11]
+    context['contactnum']=result[12]
+    context['alternatenum']=result[13]
     #context['email']=result[12]
     
     if 'back' in request.POST:
-       return render(request,"staff_home.html", context)
+       return render(request,"staff_home.html")
     return render(request,"staff_view.html",context)
 
 
 #..........................find a lab..............................#
 def find_lab(request):
     place1=" "
-   
     if 'sub' in request.POST:
         district=request.POST.get('district')
         place=request.POST.get('place')
@@ -410,19 +394,18 @@ def find_lab(request):
         s="select labname,address,contactnum,email from lab_reg where district='"+str(district)+"' and place='"+str(place)+"'"
         c.execute(s)
         place2 = c.fetchall()
-        
         print(place2)
-        return render(request,"find_lab.html",{'item':place2},context)
+        return render(request,"find_lab.html",{'item':place2})
     if 'booknow' in request.POST:
         return render(request,"book_now.html")
-    return render(request,"find_lab.html",{'item':place1},context)
+    return render(request,"find_lab.html",{'item':place1})
 #........................book now button ->    next page(book_now.html)......................#
 def book_now(request):
     sku=request.GET.get('sku')
     s="select * from test_category where email='"+sku+"'"
     c.execute(s)
     result=c.fetchall()
-    
+    print(result)
     r=""
     #q="select * from test_category"
     #c.execute(q)
@@ -434,19 +417,17 @@ def book_now(request):
         s="select * from test_type where category_id='"+str(catid)+"'"
         c.execute(s)
         r=c.fetchall()
-    if 'sub2' in request.POST:
+    if 'sub1' in request.POST:
+        print("hi")
         return render(request,"book_confirm.html")
-    return render(request,"book_now.html",{'cat1':result,'cat2':r},context)
+    return render(request,"book_now.html",{'cat1':result,'cat2':r})
 
 
 def book_confirm(request):
-    
     v = list(context.values())[0]
-  
     s ="select firstname,lastname,dob,gender,address,state,district,place,contactnum,alternatenum,email from user_reg where email='"+str(v)+"'"
     c.execute(s)
     result = c.fetchone()
-    
     context['fname']=result[0]
     context['lname']=result[1]
     context['dob']=result[2]
@@ -455,43 +436,23 @@ def book_confirm(request):
     context['state']=result[5]
     context['district']=result[6]
     context['place']=result[7]
-   
     context['contactnum']=result[8]
     context['alternatenum']=result[9]
     context['email']=result[10]
-    
-
     return render(request,"book_confirm.html",context)
 
 #......................staff view lab tests.......................#
-def view_labtest(request):
-    #v = list(context.values())[0]
-    lid=""
-    lresult=""
-    i=""
-    lid="select labid from staff_reg"
-    c.execute(lid)
-    lresult=c.fetchone()
-    i=str(lresult[0])
-    print(i)
-    char=['(', ')', ',']
-    for n in char:
-        fr=i.replace(n, '')
-    result=""
-    q="select category_name from test_category where labid='"+str(fr)+"'"
-    c.execute(q)
-    result=c.fetchall()
-    print(result)
-   
-    r=""
-    if 'ok' in request.POST:
+#def view_labtest(request):
+    
+    
+    #if 'ok' in request.POST:
         
-        catid=request.POST.get('cat') 
-        print(catid)
-        s="select id,category_id,type_name,rate from test_type where category_id='"+str(catid)+"'"
-        c.execute(s)
-        r=c.fetchall()
-    return render(request,"view_lab_test.html",{'cat':result,'cat1':r},context)
+     #   catid=request.POST.get('cat') 
+    #    print(catid)
+   #     s="select type_name,rate from test_type where category_id='"+str(catid)+"'"
+  #      c.execute(s)
+ #       r=c.fetchall()
+    #return render(request,"view_lab_test.html",{'cat':result,'cat1':r},context)
 
 
     #..........................doctor registration..................#
@@ -546,23 +507,33 @@ def addstaff_home(request):
     return render(request,"addstaff_home.html",context)
 
 def lbowner_staffView(request):
-   # sku=request.GET.get('sku')
-    print(context)
+    
+    
+    k=""
+    i=""
+    n=""
     m = list(context.values())[0]
     print(m)
-    s="select labid from lab_reg where email='"+str(m)+"'"
+    i="select labid from lab_reg where email='"+str(m)+"'"
+    c.execute(i)
+    n=c.fetchone()
+    k=str(n[0])
+    print(k)
+    s ="select staffid,firstname,lastname,address,email,contactnum from staff_reg where labid='"+str(k)+"'"
     c.execute(s)
-    ide=c.fetchall()
-    id=str(ide[0])
-    print(type(id))
-    char=['(', ')', ',']
-    for i in char:
-        idd=id.replace(i, '')
-    print(idd)
-    print(type(idd))
-    n="select * from staff_reg where labid='"+str(idd)+"'"
-    c.execute(n)
-    nn=c.fetchone()
-    print(nn)
-    
-    return render(request,"lbowner_staffView.html",context)
+    result = c.fetchall()
+    print(result)
+    return render(request,"lbowner_staffView.html",{'dict':result})
+
+def staff_delete(request):
+    if 'yes' in request.POST:
+        sku=request.GET.get('sku')
+        print(sku)
+        sid="DELETE FROM staff_reg WHERE email='"+str(sku)+"'"
+        c.execute(sid)
+        con.commit()
+    return render(request,"staff_delete.html")
+
+
+
+
