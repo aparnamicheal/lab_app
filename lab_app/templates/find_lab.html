@@ -48,12 +48,13 @@
                 
                 {% for i in item %}
                 <div id="bktest">
-              <b>  {{i.0}} </b><br>
+              
+               <b> {{i.0}}</b><br>
                 {{i.1}}<br>
                 {{i.2}}<br>
-                {{i.3}}
-
-                <input type="submit" name="booknow" value="Book Now">
+                {{i.3}}<br>
+                <a href="http://127.0.0.1:8000/book_now?sku={{i.3}}">Book Now</a>
+                <!--<input type="submit" name="booknow" value="Book Now">-->
               </div>
                 {% endfor %}
                 {% endif %}

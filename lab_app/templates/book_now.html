@@ -6,16 +6,15 @@
       for(var i=0; i<items.length; i++){
         if(items[i].type=='checkbox')
           items[i].checked=true;
+         
       }
+      
     }
     
-    function UnSelectAll(){
-      var items=document.getElementsByName('acs');
-      for(var i=0; i<items.length; i++){
-        if(items[i].type=='checkbox')
-          items[i].checked=false;
-      }
-    }			
+    
+    
+    
+	
   </script>
 <style>
   
@@ -52,12 +51,12 @@
 <butn>
 <select name="cat" > 
   <option selected disabled="true">..........select your test category........</option>
-      {% for item in cat %}
-      <option value="{{item.0}}">{{ item.1 }}</option>
+      {% for item in cat1 %}
+      <option value="{{item.0}}">{{ item.3 }}</option>
       {% endfor %}
      
     </select>
-  
+    <input type="date" name="date">
     <input type="submit" name="ok" value="ok" >
   </butn>
   
@@ -67,9 +66,9 @@
          <td><input type="button" name="sub1" value="select all"  onclick='selectAll()'></td></tr>
           <tr>
            
-            {% for item in cat1 %}
-            <td>{{ item.2}}</td>
-            <td>{{ item.3}}</td>
+            {% for item in cat2 %}
+            <td>{{ item.4}}</td>
+            <td>{{ item.5}}</td>
             <td><input type="checkbox" name="acs" value="">  <br>
              
               </td>
@@ -79,8 +78,12 @@
             
              
 </table>
+
 <butn2>
-  <input type="submit" name="sub2" value="Submit">
+  <!--<input type="submit" name="sub2" value="Submit">-->
+    
+      <input type="button" name="sub1" value="submit" ></a>
+    
 </butn2>
 </form>
 </body>

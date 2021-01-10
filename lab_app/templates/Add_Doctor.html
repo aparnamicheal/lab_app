@@ -8,7 +8,7 @@ h2 {text-align: center;}
 
 <body>
 <form method="post">
-{%csrf_token %}
+{%csrf_token%}
 <h2><text-align:"center">Doctor Details Form</align></h2>
 
 <table align="center">
@@ -17,17 +17,17 @@ h2 {text-align: center;}
 <td> Last Name : </td>
 <td><input type="text" name="lname"></td>
 </tr>
-
+<tr><td>Gender :</td>
+    <td><input type="radio" name="gender" value="male">Male
+        <input type="radio" name="gender" value="female">Female
+        <input type="radio" name="gender" value="others">Others</td></tr>
 <tr><td>DOB :</td>
 <td><input type="date" name="dob"></td></tr>
 
-<tr><td>Gender :</td>
-<td><input type="radio" name="male" value="male">Male
-    <input type="radio" name="female" value="female">Female
-    <input type="radio" name="others" value="others">Others</td></tr>
+
 
 <tr><td>Specialization :</td>
-<td><input type="text" name="Specialization"></td></tr>
+<td><input type="text" name="quali"></td></tr>
 
 <tr><td>Address :</td>
 <td><textarea name="addr" rows="4" cols="30"></textarea></td></tr>
@@ -43,16 +43,22 @@ h2 {text-align: center;}
 <td><input type="text" name="pin"></td></tr>
 
 <tr><td>Contact Number :</td>
-<td><input type="text" name="phnum"></td>
+<td><input type="text" name="phnum1"></td>
 <td>Alternate Number : </td>
-<td><input type="text" name="phnum"></td></tr>
+<td><input type="text" name="phnum2"></td></tr>
 
 <tr><td>Email :</td>
 <td><input type="text" name="email"></td></tr>
 <tr><td>Password : </td>
-<td><input type="text" name="pass"></td></tr>
-<tr><td><input type="submit" name="staff" value="Add Doctor"></td></tr>
+<td><input type="text" name="pass" value="{{rand_password}}"></td></tr>
+<tr><td><input type="submit" name="doct" value="Add Doctor"></td>
+    <td><input type="submit" name="back" value="Back"></td></tr>
 </table>
+<script> 
+    var msg="{{msg}}";
+    if(msg!="")
+       alert(msg)
+    </script>
 </form>
 </body>
 </html>

@@ -5,7 +5,8 @@ urlpatterns = [
     path('userreg',views.ureg),
     path('labreg',views.labreg,name="lab"),
     path('staff',views.stafreg),
-    path('doct',views.addoct),
+    path('doct_reg',views.doctreg),
+    path('doctor_home',views.doctor_home),
     path('category',views.category),
     path("newtest",views.newtst),
     #index....# templates.........#
@@ -18,13 +19,16 @@ urlpatterns = [
     path("labowner_home",views.labowner_home),
     path("admin_home",views.admin_home),
     path("delete",views.delete),
+    path("deletion",views.deletion),
     path("change_password",views.change_password),
     path("staff_view",views.staff_view),
     path("staff_home",views.staff_home),
-    path("book_test",views.book_test),
+    path("find_lab",views.find_lab),
     path("book_now",views.book_now),
     path("book_confirm",views.book_confirm),
-    path("view_labtest",views.view_labtest)
+    path("view_labtest",views.view_labtest),
+    path("lbowner_staffView",views.lbowner_staffView),
+    path("addstaff_home",views.addstaff_home)
     ]
 
 

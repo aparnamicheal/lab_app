@@ -6,6 +6,7 @@ import pymysql
 from django.core.mail import send_mail
 from lab.settings import EMAIL_HOST_USER
 
+
 # Create your views here.
 con = pymysql.connect("localhost","root","","lab")
 c = con.cursor()
@@ -49,6 +50,9 @@ def log(request):
                 elif(r[2]=='staff'):
                     msg="success !"
                     return render(request,'staff_home.html',context)
+                elif(r[2]=='doctor'):
+                    msg="success !"
+                    return render(request,'doctor_home.html',context)
                     # staff home page...........#
             else:
                 msg=("incorrect password")
@@ -82,11 +86,19 @@ def ureg(request):
     
     if 'back' in request.POST:
         return render(request,"index.html")
-    return render(request,'User_Registration.html',{'v':321})
+    return render(request,'User_Registration.html',{'v':321},context)
             #.....................staff registration..........................#
 
 def stafreg(request):
+    #v = list(context.values())[0]
+    #print(v)
+    
     if 'staff' in request.POST:
+     #   ss="select labid,email from lab_reg where email='"+str(v)+"'"
+      #  c.execute(ss)
+       # r=c.fetchall()
+        #print(r)
+        #id=r[0]
         s='staff'
         fname=request.POST.get('fname')
         lname=request.POST.get('lname')
@@ -103,7 +115,7 @@ def stafreg(request):
         email=request.POST.get('email')
         password=request.POST.get('pass')
         stflg="insert into login(email,password,type) values('"+str( email)+"','"+str(password)+"','"+str(s)+"');"
-        stfrg="insert into staff_reg(firstname,lastname,dob,gender,qualification,address,state,district,place,pincode,contactnum,alternatenum,email,password) values('"+str(fname)+"','"+str(lname)+"','"+str(dob)+"','"+str(gender)+"','"+str(qualification)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str(alternatenum)+"','"+str(email)+"','"+str(password)+"');"
+        stfrg="insert into staff_reg(firstname,lastname,dob,gender,qualification,address,state,district,place,pincode,contactnum,alternatenum,email,password) values("+str(fname)+"','"+str(lname)+"','"+str(dob)+"','"+str(gender)+"','"+str(qualification)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum)+"','"+str(alternatenum)+"','"+str(email)+"','"+str(password)+"');"
         c.execute(stfrg)
         c.execute(stflg)
         con.commit()
@@ -118,7 +130,7 @@ def stafreg(request):
             send_mail(subject, message, EMAIL_HOST_USER, [email], fail_silently = False)          
             #return HttpResponse("mail send")
            
-            return render(request,"Add_staff.html",{"msg":msg})
+            return render(request,"Add_staff.html",{"msg":msg},context)
             
 
         else:
@@ -127,10 +139,9 @@ def stafreg(request):
     rand_password = get_random_string(length=10)
     if 'back' in request.POST:
         return render(request,"lab_owner.html")
-    return render(request,'Add_Staff.html',{'rand_password':rand_password})
+    return render(request,'Add_Staff.html',{'rand_password':rand_password},context)
 
-def addoct(request):
-    return render(request,'Add_Doctor.html')
+
 
 def validateEmail(email):   
         if len(email) > 6:
@@ -161,7 +172,7 @@ def labreg(request):
        
         if(n==1):
             p=request.POST.get('pass')
-            subject = 'Welocme........!'
+            subject = 'Welcome........!'
             message = "your login password:%s" % (p)
             send_mail(subject, message, EMAIL_HOST_USER, [email], fail_silently = False)          
             return HttpResponse("mail send")
@@ -171,55 +182,109 @@ def labreg(request):
     rand_password = get_random_string(length=10)
     if 'back' in request.POST:
         return render(request,"admin_home.html")
-    return render(request,'Add_Lab.html',{'rand_password':rand_password})
+    return render(request,'Add_Lab.html',{'rand_password':rand_password},context)
         
       
        #...................add test category...........................#
 
 def category(request):
+    v = list(context.values())[0]
+    print(v)
+    
     if 'category' in request.POST:
+        
+        s ="select labid,email from lab_reg where email='"+str(v)+"'"
+        c.execute(s)
+        result = c.fetchone()
+        a=result[0]
+        b=result[1]
+        print(result)
+        print(a)
+        print(b)
+        
         tstcat=request.POST.get('cat')
-        adtst="insert into test_category(category_name) values('"+str(tstcat)+"');"
+        print(tstcat)
+        adtst="insert into test_category(labid,email,category_name) values('"+str(a)+"','"+str(b)+"','"+str(tstcat)+"');"
         c.execute(adtst)
         con.commit()
-        return render(request,"lab_owner.html") 
+       
     if 'back' in request.POST:
        #lab owner home page....#
        return render(request,"lab_owner.html") 
-    return render(request,"Add_TestCategory.html")
+    return render(request,"Add_TestCategory.html",context)
      #...........................add new test...............................#
 def newtst(request):
+
+    v = list(context.values())[0]
+    
+    
+    
+    
+    if 'category' in request.POST:
+        
+        s ="select labid,email from lab_reg where email='"+str(v)+"'"
+        c.execute(s)
+        result = c.fetchone()
+        a=result[0]
+        b=result[1]
+        print(result)
+        print(a)
+        print(b)
+        
+        tstcat=request.POST.get('cat')
+        print(tstcat)
+        adtst="insert into test_category(labid,email,category_name) values('"+str(a)+"','"+str(b)+"','"+str(tstcat)+"');"
+        c.execute(adtst)
+        con.commit()
+       
+    #if 'back' in request.POST:
+       #lab owner home page....#
+     #  return render(request,"lab_owner.html") 
+    #return render(request,"Add_NewTest.html",context)
+    
+    
     q="select * from test_category"
     c.execute(q)
     result=c.fetchall()
+    print(result)
     if 'save' in request.POST:
+        s ="select labid,email from lab_reg where email='"+str(v)+"'"
+        c.execute(s)
+        result = c.fetchone()
+        a=result[0]
+        b=result[1]
+        print(result)
+        print(a)
+        print(b)
+
         catid=request.POST.get('cat') 
         print(catid)
         tsttype=request.POST.get('type')
         rate=request.POST.get('rate')
-        addnwtst="insert into test_type(category_id,type_name,rate) values('"+str(catid)+"','"+str(tsttype)+"','"+str(rate)+"');"
+        addnwtst="insert into test_type(labid,email,category_id,type_name,rate) values('"+str(a)+"','"+str(b)+"','"+str(catid)+"','"+str(tsttype)+"','"+str(rate)+"');"
         c.execute(addnwtst)
         con.commit()  
     
     if 'back' in request.POST:
        #lab owner home page....#
        return render(request,"lab_owner.html") 
-    return render(request,"Add_NewTest.html",{'cat':result})
+    return render(request,"Add_NewTest.html",{'cat':result},context)
     
     #..............templates............#
 
 def indx(request):
-    return render(request,"index.html")
+    return render(request,"index.html",context)
 
 def index1(request):
-    return render(request,"index1.html")
+    print(context)
+    return render(request,"index1.html",context)
 
 
 
 #........... user profile view....................................#
 def userprofile(request):
     v = list(context.values())[0]
-   
+    print(context)
     s ="select firstname,lastname,dob,gender,address,state,district,place,pincode,contactnum,alternatenum,email from user_reg where email='"+str(v)+"'"
     c.execute(s)
     result = c.fetchone()
@@ -254,21 +319,40 @@ def delete(request):
         c.execute(sq)
         con.commit()
         
-        return render(request,"index.html")
+        return render(request,"index.html",context)
     if 'no' in request.POST:
-        return render(request,"index1.html")
+        return render(request,"index1.html",context)
 
-    return render(request,"delete.html")      
-    
+    return render(request,"delete.html",context)      
+    #.......................deletion new........................#
+def deletion(request):
+    v = list(context.values())[0]
+    s ="select email from user_reg where email='"+str(v)+"'"
+    c.execute(s)
+    #result = c.fetchone()
+    if 'yes' in request.POST:
+        #sql = "DELETE FROM login WHERE email='apsara@gmail.com'"
+        sql = "DELETE FROM login WHERE email='"+str(v)+"'"
+        sq = "DELETE FROM user_reg WHERE email='"+str(v)+"'"
+        c.execute(sql)
+        c.execute(sq)
+        con.commit()
+        
+        return render(request,"index.html",context)
+    if 'no' in request.POST:
+        return render(request,"index1.html",context)
+
+    return render(request,"deletion_new.html",context)     
+
     
     #................home pages.................#
 
 def user_home(request):
     return render(request,"user_home.html",context)
 def labowner_home(request):
-    return render(request,"lab_owner.html")
+    return render(request,"lab_owner.html",context)
 def admin_home(request):
-    return render(request,"admin_home.html")
+    return render(request,"admin_home.html",context)
 def staff_home(request):
    
     return render(request,"staff_home.html",context)
@@ -278,11 +362,11 @@ def staff_home(request):
 
 def change_password(request):
     
-    return render(request,"Change_password.html")
+    return render(request,"Change_password.html",context)
     
              #..........lab profile..................#
 def labownerprofile_index(request):
-    return render(request,"labownerprofile_index.html")
+    return render(request,"labownerprofile_index.html",context)
 
 #............................staff profile view............................#
 def staff_view(request):
@@ -312,40 +396,47 @@ def staff_view(request):
     return render(request,"staff_view.html",context)
 
 
-#..........................book a test..............................#
-def book_test(request):
-    result=" "
+#..........................find a lab..............................#
+def find_lab(request):
+    place1=" "
+   
     if 'sub' in request.POST:
-        
         district=request.POST.get('district')
         place=request.POST.get('place')
-        
         s="select count(*) from lab_reg where district='"+str(district)+"'"
         c.execute(s)
-        r=c.fetchone()
-        print(r)
+        place1=c.fetchone()
+        print(place1)
         s="select labname,address,contactnum,email from lab_reg where district='"+str(district)+"' and place='"+str(place)+"'"
         c.execute(s)
-        result = c.fetchall()
-        print(result)
+        place2 = c.fetchall()
+        
+        print(place2)
+        return render(request,"find_lab.html",{'item':place2},context)
     if 'booknow' in request.POST:
         return render(request,"book_now.html")
-    return render(request,"book_test.html",{'item':result})
-
+    return render(request,"find_lab.html",{'item':place1},context)
+#........................book now button ->    next page(book_now.html)......................#
 def book_now(request):
-    r=""
-    q="select * from test_category"
-    c.execute(q)
+    sku=request.GET.get('sku')
+    s="select * from test_category where email='"+sku+"'"
+    c.execute(s)
     result=c.fetchall()
-    print(result)
+    
+    r=""
+    #q="select * from test_category"
+    #c.execute(q)
+    #result=c.fetchall()
+    #print(result)
     if 'ok' in request.POST:
         catid=request.POST.get('cat') 
         print(catid)
         s="select * from test_type where category_id='"+str(catid)+"'"
         c.execute(s)
         r=c.fetchall()
-   
-    return render(request,"book_now.html",{'cat':result,'cat1':r})
+    if 'sub2' in request.POST:
+        return render(request,"book_confirm.html")
+    return render(request,"book_now.html",{'cat1':result,'cat2':r},context)
 
 
 def book_confirm(request):
@@ -372,17 +463,106 @@ def book_confirm(request):
 
     return render(request,"book_confirm.html",context)
 
+#......................staff view lab tests.......................#
 def view_labtest(request):
-    r=""
-    q="select * from test_category"
+    #v = list(context.values())[0]
+    lid=""
+    lresult=""
+    i=""
+    lid="select labid from staff_reg"
+    c.execute(lid)
+    lresult=c.fetchone()
+    i=str(lresult[0])
+    print(i)
+    char=['(', ')', ',']
+    for n in char:
+        fr=i.replace(n, '')
+    result=""
+    q="select category_name from test_category where labid='"+str(fr)+"'"
     c.execute(q)
     result=c.fetchall()
     print(result)
+   
+    r=""
     if 'ok' in request.POST:
+        
         catid=request.POST.get('cat') 
         print(catid)
-        s="select * from test_type where category_id='"+str(catid)+"'"
+        s="select id,category_id,type_name,rate from test_type where category_id='"+str(catid)+"'"
         c.execute(s)
         r=c.fetchall()
-   
-    return render(request,"view_lab_test.html",{'cat':result,'cat1':r})
+    return render(request,"view_lab_test.html",{'cat':result,'cat1':r},context)
+
+
+    #..........................doctor registration..................#
+def doctreg(request):
+    msg=""
+    if 'doct' in request.POST:
+        l='doctor'
+        fname=request.POST.get('fname')
+        lname=request.POST.get('lname')
+        gender=request.POST.get('gender')
+        dob=request.POST.get('dob')
+        qualification=request.POST.get('quali')
+        address=request.POST.get('addr')
+        state=request.POST.get('state')
+        district=request.POST.get('dis')
+        place=request.POST.get('place')
+        pincode=request.POST.get('pin')
+        contactnum1=request.POST.get('phnum1')
+        contactnum2=request.POST.get('phnum2')
+        email=request.POST.get('email')
+        password=request.POST.get('pass')
+        lblg="insert into login(email,password,type) values('"+str(email)+"','"+str(password)+"','"+str(l)+"');"
+        doctreg="insert into doct_reg(firstname,lastname,gender,dob,specilization,address,state,district,place,pincode,contactnum,alternatenum,email,password) values('"+str(fname)+"','"+str(lname)+"','"+str(gender)+"','"+str(dob)+"','"+str(qualification)+"','"+str(address)+"','"+str(state)+"','"+str(district)+"','"+str(place)+"','"+str(pincode)+"','"+str(contactnum1)+"','"+str(contactnum2)+"','"+str(email)+"','"+str(password)+"');"
+        c.execute(lblg)
+        c.execute(doctreg)
+        con.commit()
+        email=request.POST.get('email')
+        n=validateEmail(email)
+       
+        if(n==1):
+            p=request.POST.get('pass')
+            subject = 'Welcome........!'
+            message = "your login password:%s" % (p)
+            send_mail(subject, message, EMAIL_HOST_USER, [email], fail_silently = False)          
+            #return HttpResponse("mail send")
+            return render(request,"Add_staff.html",{"msg":msg})
+        else:
+            return HttpResponse("mail id invalid",context)
+    rand_password = get_random_string(length=10)
+
+    if 'back' in request.POST:
+        return render(request,"lab_owner.html")
+    return render(request,'Add_Doctor.html',{'rand_password':rand_password},context)
+
+#.........................doctor home page..................#
+def doctor_home(request):
+    return render(request,"doctor_home.html",context)
+
+
+
+def addstaff_home(request):
+    return render(request,"addstaff_home.html",context)
+
+def lbowner_staffView(request):
+   # sku=request.GET.get('sku')
+    print(context)
+    m = list(context.values())[0]
+    print(m)
+    s="select labid from lab_reg where email='"+str(m)+"'"
+    c.execute(s)
+    ide=c.fetchall()
+    id=str(ide[0])
+    print(type(id))
+    char=['(', ')', ',']
+    for i in char:
+        idd=id.replace(i, '')
+    print(idd)
+    print(type(idd))
+    n="select * from staff_reg where labid='"+str(idd)+"'"
+    c.execute(n)
+    nn=c.fetchone()
+    print(nn)
+    
+    return render(request,"lbowner_staffView.html",context)
