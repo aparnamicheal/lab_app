@@ -534,6 +534,15 @@ def staff_delete(request):
         con.commit()
     return render(request,"staff_delete.html")
 
+def book_test(request):
+    if 'book_test' in request.POST:
+        # get category from request
+        # sub_categories = fetch all sub category which is under the 'category' from db
+        # for sub_cat in sub_categories
+        #   if(sub_cat is checked in request variable)
+        #       add entry fro the sub_cat
+        # return a template
+
 
 
 
